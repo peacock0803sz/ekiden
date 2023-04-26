@@ -1,21 +1,129 @@
 ---
-export type Article = {
+import dayjs from "dayjs";
+
+export type ArticleProps = {
   title: string;
   date: string;
   author: string;
-  url?: string;
-  published: boolean;
+  url: string | null;
+  firstDay?: boolean;
+  opened?: boolean;
+  githubUser?: string;
+  issueNumber?: number;
 };
 
-type Props = Article;
+type Props = ArticleProps;
 
-const { title, date, author, url, published } = Astro.props;
+const { title, date, author, url, firstDay, opened } = Astro.props;
+
+const published = dayjs() >= dayjs(date);
 ---
 
-<tr class="flex flex-row">
-  <td class="basis-1/6">{date}</td>
-  <td class="basis-1/6">{author}</td>
-  <td class="basis-2/3">{
-    url && published ? (<a class="underline" href=`${url}`>{title}</a>) : title
-    }</td>
-</tr>
+<div class="container" id={`article-${date}`}>
+  {
+    firstDay && (
+      <div class="month">
+        <div class="date opened">{dayjs(date).month() + 1}月</div>
+      </div>
+    )
+  }
+  <a href={published || opened ? url : undefined} class="article">
+    <div class:list={["date", { opened, published }]}>
+      {dayjs(date).date()}日
+    </div>
+    <div class="metadata">
+      <div class="author">{author}</div>
+      <div class="title">{title}</div>
+    </div>
+  </a>
+</div>
+
+<style>
+  :root {
+    --light-gray: #666;
+    --text-black: #333;
+  }
+  .opened {
+    background: var(--light-gray) !important;
+  }
+
+  .published {
+    background: #2a9bdd !important;
+    box-shadow: 2px 2px 2px #444;
+  }
+
+  .container {
+    --date-r: 20px;
+    --date-my: 40px;
+    --date-mx: 40px;
+    --date-fs: 1rem;
+    --timeline-w: 10px;
+    --timeline-m: calc(var(--date-r) - var(--timeline-w) / 2);
+    --author-h: 30px;
+    --triangle-h: calc(var(--date-my) + var(--date-r) - var(--author-h));
+    --triangle-w: calc(var(--date-mx) + var(--date-r));
+    --triangle-a: calc(0deg - atan2(var(--triangle-h), var(--triangle-w)));
+    --triangle-l: calc(var(--triangle-w) / cos(var(--triangle-a)));
+  }
+
+  .month {
+    --date-r: 40px;
+    --date-mx: 20px;
+    --date-my: 20px;
+    --date-fs: 1.4rem;
+  }
+
+  .article,
+  .month {
+    min-height: calc(var(--date-my) * 2 + var(--date-r) * 2);
+    @apply relative flex items-start overflow-hidden;
+  }
+
+  .article:hover {
+    --date-r: 30px;
+    --date-mx: 30px;
+    --date-my: 30px;
+    --date-fs: 1.4rem;
+  }
+
+  .date {
+    font-family: "Kaushan Script", "Yuji Syuku", serif;
+    background: #11405b;
+    font-size: var(--date-fs);
+    min-width: calc(var(--date-r) * 2);
+    min-height: calc(var(--date-r) * 2);
+    margin: var(--date-my) var(--date-mx);
+    transition: all 0.3s;
+    @apply text-white flex justify-center items-center rounded-full;
+  }
+
+  .date::before {
+    content: " ";
+    min-height: 65535px;
+    background: var(--light-gray);
+    width: var(--timeline-w);
+    z-index: -1;
+    @apply absolute;
+  }
+
+  .article .date::after {
+    content: " ";
+    background: var(--light-gray);
+    width: var(--triangle-l);
+    transform: rotate(var(--triangle-a)) translate(50%, 0);
+    z-index: -1;
+    @apply absolute h-px;
+  }
+
+  .metadata {
+    min-height: calc(var(--date-my) * 2 + var(--date-r) * 2);
+    color: var(--text-black);
+    @apply w-full;
+  }
+
+  .author {
+    height: var(--author-h);
+    border-bottom: 1px var(--text-black) solid;
+    @apply flex items-end;
+  }
+</style>

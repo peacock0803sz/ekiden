@@ -1,54 +1,89 @@
 ---
+import dayjs from "dayjs";
 import Articles from "../components/Articles.astro";
-import Calendar from "../components/Calendar";
-
 import content from "../content.json";
+import Base from "../layouts/Base.astro";
 
 const articles = content.articles;
-const events = articles.map((article) => ({
-  title: article.title,
-  start: article.date,
-}));
+
+const newestArticle = content.articles
+  .filter((article) => dayjs(article.date) <= dayjs() && article.url !== null)
+  .sort((a, b) => dayjs(a.date).unix() - dayjs(b.date).unix())
+  .pop();
 ---
 
-<html lang="ja">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Vim 駅伝</title>
-  </head>
-  <body>
-    <main>
-      <div class="tw-c-container">
-        <h1>Vim 駅伝</h1>
-        <div class="tw-c-section">
-          <h2>スケジュール</h2>
-          <Calendar events={events} client:load />
-        </div>
-        <div class="tw-c-section">
-          <h2>記事一覧</h2>
-          <Articles articles={articles} />
-        </div>
-      </div>
-    </main>
-  </body>
-</html>
+<Base title="Vim 駅伝" slug="/">
+  {/* head tag 内に記述する要素は slot="head" を指定する */}
+  <link
+    slot="head"
+    rel="alternate"
+    type="application/rss+xml"
+    title="RSS2.0"
+    href={`${import.meta.env.BASE_URL}rss.xml`}
+  />
+
+  <section class="py-4">
+    <h2>Vim 駅伝とは</h2>
+    <p>
+      Vimmerを中心に技術的なコンテンツを持ち寄り、リレー形式で記事をリンクする営みです。
+      GitHub のアカウントさえあれば誰でも投稿できます。
+      小さなノウハウ、ちょっとした気づき、作ったプラグイン、開発の苦労話など、
+      Vim またはテクノロジーに関連していればどんな些細な内容でもかまいません。
+      皆さんの手で、Vim 駅伝を盛り上げていきましょう！
+    </p>
+    <h2>参加方法</h2>
+    <p>
+      本ページの下のスケジュールのうち、「募集中」となっている日付が登録可能です。好きな日を選んで「参加登録」をクリックしてください。
+      すると GitHub の issue 作成ページに遷移しますので、タイトル等を埋め issue
+      を作成すれば登録完了です。
+    </p>
+    <p>
+      詳しくは<a
+        href="https://thinca.hatenablog.com/entry/vim-ekiden-is-launched"
+        >Vim 駅伝初日の記事</a
+      >を参照してください。
+    </p>
+    <h2>注意事項</h2>
+    <ul>
+      <li>
+        個人攻撃や差別的な内容を含む記事、公序良俗に反する不適切な記事の投稿を禁止します。
+        明らかに不適切と判断された記事については、GitHub
+        経由での通告のもと本ページからリンクを削除する場合があります。
+      </li>
+    </ul>
+  </section>
+  <section class="news">
+    {
+      newestArticle && (
+        <p>
+          <b>News</b>:{dayjs(newestArticle.date).format("M/D")}
+          の記事 「
+          <a href={`#article-${newestArticle.date}`}>{newestArticle.title}</a>」
+          が公開されました！
+        </p>
+      )
+    }
+  </section>
+  <Articles articles={articles} />
+</Base>
 
 <style>
-  main {
-    @apply flex justify-center my-10 mx-20;
+  section {
+    color: #666;
+    background: rgba(244, 244, 244, 1);
   }
-  div.tw-c-container {
-    @apply max-w-4xl flex-1;
-  }
-  div.tw-c-section {
-    @apply py-5;
-  }
-  h1 {
-    @apply text-4xl font-bold;
+  .news {
+    margin-top: 10px;
+    padding: 20px;
+    border: 3px solid #666;
+    border-radius: 10px;
+    background: rgba(244, 244, 244, 1);
   }
   h2 {
-    @apply text-2xl font-bold my-1;
+    @apply text-2xl font-bold mt-4 mb-2;
+    font-family: "Kaushan Script", "Yuji Syuku", serif;
+  }
+  a {
+    @apply text-blue-500;
   }
 </style>
