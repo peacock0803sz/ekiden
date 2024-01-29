@@ -1089,10 +1089,10 @@
       "issueNumber": 222
     },
     {
-      "title": "(Neo)vim で日本語を使うための工夫",
+      "title": "Vim で日本語を使うための工夫",
       "date": "2024-01-12",
       "runner": "sankantsu",
-      "url": null,
+      "url": "https://zenn.dev/vim_jp/articles/e038e42b0e78d5",
       "githubUser": "sankantsu",
       "issueNumber": 224
     },
@@ -1100,25 +1100,81 @@
       "title": "プラグインマネージャをdpp.vimへ移行と設定方針",
       "date": "2024-01-15",
       "runner": "yasunori0418",
-      "url": null,
+      "url": "https://zenn.dev/vim_jp/articles/0006-migrate_plugin_manager_to_dpp",
       "githubUser": "yasunori0418",
       "issueNumber": 225
     },
     {
-      "title": "stralnumcmp.vim",
+      "title": "俺自身がVimのstatuslineになることだ",
       "date": "2024-01-17",
       "runner": "kawarimidoll",
-      "url": "https://zenn.dev/vim_jp/articles/09c8be78d76119",
+      "url": "https://zenn.dev/vim_jp/articles/358848a5144b63",
       "githubUser": "kawarimidoll",
       "issueNumber": 226
     },
     {
-      "title": "なにか書く",
+      "title": "Emacs ユーザーから見た vim-jp",
+      "date": "2024-01-19",
+      "runner": "たけてぃ",
+      "url": "https://www.takeokunn.org/posts/poem/20240117104306-perspective_of_vim_jp_from_emacser/",
+      "githubUser": "takeokunn",
+      "issueNumber": 247
+    },
+    {
+      "title": "Vimを勧めるときのすヽめ",
+      "date": "2024-01-22",
+      "runner": "yasunori0418",
+      "url": "https://zenn.dev/vim_jp/articles/0007-vim-recommend-method",
+      "githubUser": "yasunori0418",
+      "issueNumber": 248
+    },
+    {
+      "title": "2023年のorg-mode活用と今後の抱負",
+      "date": "2024-01-24",
+      "runner": "たけてぃ",
+      "url": "https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/",
+      "githubUser": "takeokunn",
+      "issueNumber": 251
+    },
+    {
+      "title": "Vim/Neovim でカーソル下のハイライトの情報を表示する",
+      "date": "2024-01-26",
+      "runner": "mityu",
+      "url": "https://zenn.dev/vim_jp/articles/show-hlgroup-under-cursor",
+      "githubUser": "mityu",
+      "issueNumber": 252
+    },
+    {
+      "title": "新世代のneovimプラグインマネージャlazy.nvimの紹介",
+      "date": "2024-01-29",
+      "runner": "Liquid_system",
+      "url": "https://zenn.dev/vim_jp/articles/cd3e45f5c105ed",
+      "githubUser": "Liquid-system",
+      "issueNumber": 254
+    },
+    {
+      "title": "windowsでdenops shared serverを使ったり使わなかったりする",
       "date": "2024-01-31",
       "runner": "staticWagomU",
-      "url": null,
+      "url": "https://wagomu.me/blog/2024-01-31-vim-ekiden/",
       "githubUser": "staticWagomU",
       "issueNumber": 223
+    },
+    {
+      "title": "Neovim Lua でマルチスレッド",
+      "date": "2024-02-02",
+      "runner": "uga-rosa",
+      "url": "https://zenn.dev/vim_jp/articles/fdc34996dc5181",
+      "githubUser": "uga-rosa",
+      "issueNumber": 255
+    },
+    {
+      "title": "denoプロジェクトの依存は積極的に更新していきたい",
+      "date": "2024-02-05",
+      "runner": "kyoh86",
+      "url": "https://zenn.dev/vim_jp/articles/ae7c09bc446b60",
+      "githubUser": "kyoh86",
+      "issueNumber": 262
     }
   ]
 }
