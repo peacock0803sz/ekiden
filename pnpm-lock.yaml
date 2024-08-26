@@ -49,8 +49,8 @@ importers:
         specifier: ^1.10.1
         version: 1.10.1
       '@eslint/js':
-        specifier: ^9.9.0
-        version: 9.9.0
+        specifier: ^9.9.1
+        version: 9.9.1
       '@types/eslint__js':
         specifier: ^8.42.3
         version: 8.42.3
@@ -440,6 +440,10 @@ packages:
 
   '@eslint/js@9.9.0':
     resolution: {integrity: sha512-hhetes6ZHP3BlXLxmd8K2SNgkhNSi+UcecbnwWKwpP7kyi/uC75DJ1lOOBO3xrC4jyojtGE3YxKZPHfk4yrgug==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@eslint/js@9.9.1':
+    resolution: {integrity: sha512-xIDQRsfg5hNBqHz04H1R3scSVwmI+KUbqjsQKHKQ1DAUSaUjYPReZZmS/5PNiKu1fUvzDd6H7DEDKACSEhu+TQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/object-schema@2.1.4':
@@ -1460,6 +1464,7 @@ packages:
 
   glob@7.1.6:
     resolution: {integrity: sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   globals@11.12.0:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
@@ -3266,6 +3271,8 @@ snapshots:
       - supports-color
 
   '@eslint/js@9.9.0': {}
+
+  '@eslint/js@9.9.1': {}
 
   '@eslint/object-schema@2.1.4': {}
 
