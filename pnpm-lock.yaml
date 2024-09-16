@@ -24,8 +24,8 @@ importers:
         specifier: ^5.0.23
         version: 5.0.23
       '@fontsource/yuji-syuku':
-        specifier: ^5.0.14
-        version: 5.0.14
+        specifier: ^5.1.0
+        version: 5.1.0
       astro:
         specifier: ^4.15.4
         version: 4.15.4(rollup@4.21.2)(typescript@5.5.4)
@@ -449,8 +449,8 @@ packages:
   '@fontsource/kaushan-script@5.0.23':
     resolution: {integrity: sha512-BVAdUUhf86iG7wLo7cVUACu7D3+FEmiJ7iHLD8dqiCzBI23UFM2KqGepxB/acjcUVjqN0LqiJsnQrDCnnj3ieg==}
 
-  '@fontsource/yuji-syuku@5.0.14':
-    resolution: {integrity: sha512-r9EsB0AFkwc0Q9oEc+Vjh+EallAD4hLJuXZz0ailXyds8CJqTksDlTy3p215FbtJC8WzhyzdsS/UcSzKpuDJVg==}
+  '@fontsource/yuji-syuku@5.1.0':
+    resolution: {integrity: sha512-gDL9wRdIs3rWXGxW6O8PLCvCTUhrCQfQXBMjzxsv7GEz6FuBWjyfzXDEBmUm7D8CcvY39qOJQq6Jte93BaQqbQ==}
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -3233,7 +3233,7 @@ snapshots:
 
   '@fontsource/kaushan-script@5.0.23': {}
 
-  '@fontsource/yuji-syuku@5.0.14': {}
+  '@fontsource/yuji-syuku@5.1.0': {}
 
   '@humanwhocodes/module-importer@1.0.1': {}
 
