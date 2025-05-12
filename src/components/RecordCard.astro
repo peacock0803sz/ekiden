@@ -9,52 +9,68 @@ export type RecordType = {
    * @default true
    */
   enabledDigitHighlight?: boolean;
+  href?: string;
 };
 
 type Props = RecordType;
-const { title, records, unit, enabledDigitHighlight = true } = Astro.props;
+const {
+  title,
+  records,
+  unit,
+  enabledDigitHighlight = true,
+  href,
+} = Astro.props;
 ---
 
 <div class="flex flex-col gap-2 sm:flex-row">
-  <div class="flex flex-1 justify-center self-center sm:self-start">
+  <div class="flex flex-1 self-center justify-center sm:self-start">
     <div
-      class="inline-box w-40 justify-self-center rounded bg-ekiden-green-500 px-3 py-2 text-center font-ekiden-heading text-xl text-ekiden-white-500"
+      class="inline-box w-40 justify-self-center rounded bg-ekiden-green-500 px-3 py-2 text-center text-xl text-ekiden-white-500 font-ekiden-heading"
     >
       {title}
     </div>
   </div>
   <div
-    class="flex flex-1 flex-col items-center gap-2 self-center justify-self-start"
+    class="flex flex-1 flex-col items-center self-center justify-self-start gap-2"
   >
     {
       records.map((record) => {
         return (
           <div class="flex gap-2">
-            <div>
+            <a href={href ? href : undefined}>
               {enabledDigitHighlight ? (
                 <div class="flex items-center gap-2">
-                  {[...record.toString()].map((digit) => {
-                    return digit === "." ? (
-                      <span class="font-ekiden-mono text-2xl font-extrabold">
-                        .
-                      </span>
-                    ) : (
-                      <span class="border-b-2 border-b-ekiden-black-500 font-ekiden-mono text-2xl font-thin">
-                        {digit}
-                      </span>
-                    );
-                  })}
+                  {[...record.toString()].map((digit) => (
+                    <span
+                      class:list={[
+                        "font-ekiden-mono text-2xl",
+                        digit === "." ? "font-extrabold" : "font-thin",
+                        digit !== "." && "border-b-2 border-b-ekiden-black-500",
+                      ]}
+                    >
+                      {digit}
+                    </span>
+                  ))}
                 </div>
               ) : (
-                <span class="border-b-2 border-b-ekiden-black-500 font-ekiden-mono text-2xl font-thin">
+                <span class="border-b-2 border-b-ekiden-black-500 text-2xl font-thin font-ekiden-mono">
                   {record}
                 </span>
               )}
-            </div>
-            <div class="self-end font-ekiden-base text-xl">{unit}</div>
+            </a>
+            <div class="self-end text-xl font-ekiden-base">{unit}</div>
           </div>
         );
       })
     }
   </div>
 </div>
+
+<style>
+  a[href]:hover {
+    @apply text-ekiden-green-500;
+    & * {
+      @apply border-b-2 border-b-ekiden-green-500;
+    }
+  }
+</style>

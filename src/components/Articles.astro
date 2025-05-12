@@ -1,51 +1,83 @@
 ---
-import Article, { type ArticleProps } from "./Article.astro";
 import dayjs from "dayjs";
+import { generate } from "../lib/schedule.ts";
+import Article, { type ArticleProps } from "./Article.astro";
+import ArticleBooked from "./ArticleBooked.astro";
+import ArticleSlot from "./ArticleSlot.astro";
+import type { ArticleSlotProps } from "./ArticleSlot.astro";
 
 type Props = {
-  articles: ArticleProps[];
+  articles: Omit<ArticleProps, "firstDay">[];
 };
 
-let initialDay = dayjs().subtract(1, "M");
-const diff =
-  initialDay.day() === 0
-    ? 1
-    : initialDay.day() === 1
-      ? 0
-      : initialDay.day() === 2
-        ? 1
-        : initialDay.day() === 3
-          ? 0
-          : initialDay.day() === 4
-            ? 1
-            : initialDay.day() === 5
-              ? 0
-              : initialDay.day() === 6
-                ? 2
-                : 0;
-initialDay = initialDay.add(diff, "d");
-let today = initialDay;
-let yesterday = initialDay.subtract(1, "M");
-const articles = [];
-while (initialDay.add(2, "M") >= today) {
-  let article: ArticleProps = {
-    opened: true,
-    runner: "募集中",
-    title: "記事を投稿する",
-    date: today.format("YYYY-MM-DD"),
-    url: `https://github.com/vim-jp/ekiden/issues/new?labels=article&template=article.yml&title=${today.format(
-      "YYYY-MM-DD",
-    )}`,
-  };
-  article =
-    Astro.props.articles.find(
-      ({ date }) => date === today.format("YYYY-MM-DD"),
-    ) ?? article;
-  article.firstDay = today.month() !== yesterday.month();
-  articles.push(article);
-  yesterday = today;
-  today = today.add(today.day() >= 4 ? 3 : 2, "d");
+type ArticleEntry = {
+  state: "published" | "booked";
+  article: ArticleProps;
+};
+type ArticleSlotEntry = {
+  state: "empty";
+  article: ArticleSlotProps;
+};
+
+/**
+ * 以下条件を満たすようにスケジュールを表示する
+ *
+ * - 月・水・金曜日のみ表示する
+ * - 1ヶ月前からの日付を表示する
+ * - 最低でも5つの空き枠を表示する
+ * - 最低でも1ヶ月先までは表示する
+ */
+const START_DATE = dayjs().subtract(1, "M");
+const LEAST_SLOT_COUNT = 5;
+const LEAST_DATE = dayjs().add(1, "M");
+
+const entries: (ArticleEntry | ArticleSlotEntry)[] = [];
+let prevDate: dayjs.Dayjs | null = null;
+let slotCount = 0;
+for (const date of generate({
+  start: START_DATE,
+})) {
+  const todayStr = date.format("YYYY-MM-DD");
+  const article = Astro.props.articles.find(({ date }) => date === todayStr);
+  const entry: ArticleEntry | ArticleSlotEntry = article
+    ? {
+        state:
+          date > dayjs() || !article.url
+            ? ("booked" as const)
+            : ("published" as const),
+        article: {
+          ...article,
+          date: todayStr,
+          firstDay: prevDate === null || date.month() !== prevDate.month(),
+        },
+      }
+    : {
+        state: "empty" as const,
+        article: {
+          date: todayStr,
+          firstDay: prevDate === null || date.month() !== prevDate.month(),
+          firstSlot: slotCount == 0,
+        },
+      };
+  slotCount += entry.state === "empty" ? 1 : 0;
+  entries.push(entry);
+  prevDate = date;
+  if (date >= LEAST_DATE && slotCount >= LEAST_SLOT_COUNT) {
+    break;
+  }
 }
 ---
 
-{articles.map((article) => <Article {...article} />)}
+{
+  entries.map((entry) =>
+    entry.state === "published" ? (
+      <Article {...entry.article} />
+    ) : entry.state === "booked" ? (
+      <ArticleBooked {...entry.article} />
+    ) : entry.state == "empty" ? (
+      <ArticleSlot {...entry.article} />
+    ) : (
+      <div />
+    ),
+  )
+}

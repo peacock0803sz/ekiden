@@ -1,0 +1,21 @@
+---
+type Props = { month: number };
+
+const { month } = Astro.props;
+---
+
+<div class="px-4">
+  <div class="w-full flex flex-row flex-nowrap">
+    <div class="w-12"></div>
+    <div class="h-4 w-6 bg-ekiden-green-500"></div>
+  </div>
+  <div
+    class="w-30 border border-ekiden-green-500 rounded p-1 text-center align-middle text-ekiden-green-500 font-bold"
+  >
+    {month}月
+  </div>
+  <div class="w-full flex flex-row flex-nowrap">
+    <div class="w-12"></div>
+    <div class="h-4 w-6 bg-ekiden-green-500"></div>
+  </div>
+</div>

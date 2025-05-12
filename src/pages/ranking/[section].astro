@@ -9,7 +9,7 @@ import SeasonList, {
 } from "@/components/SeasonList.astro";
 import { getArticles } from "@/lib/article";
 import Base from "@/layouts/Base.astro";
-import RankChart from "@/components/RankChart.svelte";
+import { RankChart } from "@/components/RankChart";
 
 export function getStaticPaths() {
   return getSectionArray(false).map((section) => ({
@@ -38,15 +38,17 @@ const articles = getArticles({ isPublished: true }).filter((article) => {
 
 <Base
   title={`Vim 駅伝 - ランキング - ${displaySectionName(section)}`}
-  slug={`/ranking/`}
+  slug="/ranking"
 >
   <SeasonList
     selected={section}
     linkDest="ranking"
     showUnpublishedSeason={false}
   />
-  <section class="py-4">
-    <h2>記事投稿数ランキング（{displaySectionName(section)}）</h2>
-    <RankChart articles={articles} client:only="svelte" />
+  <section class="py-4 text-ekiden-gray-500">
+    <h2 class="mb-2 mt-4 text-2xl font-bold font-ekiden-heading">
+      記事投稿数ランキング（{displaySectionName(section)}）
+    </h2>
+    <RankChart articles={articles} client:visible />
   </section>
 </Base>
